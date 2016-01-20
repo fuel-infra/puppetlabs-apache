@@ -39,6 +39,8 @@ define apache::vhost(
   $logroot                     = $::apache::logroot,
   $logroot_ensure              = 'directory',
   $logroot_mode                = undef,
+  $logroot_owner               = undef,
+  $logroot_group               = undef,
   $log_level                   = undef,
   $access_log                  = true,
   $access_log_file             = false,
@@ -266,6 +268,8 @@ define apache::vhost(
   if ! defined(File[$logroot]) {
     file { $logroot:
       ensure  => $logroot_ensure,
+      owner   => $logroot_owner,
+      group   => $logroot_group,
       mode    => $logroot_mode,
       require => Package['httpd'],
       before  => Concat["${priority_real}${filename}.conf"],
